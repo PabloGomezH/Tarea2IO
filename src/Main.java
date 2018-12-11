@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Main {
 	
-	static int numVar=36;	//numero de variables
+	static int variables=36;	//numero de variables
 	static int Ciclos=200; //Numero de ciclos 
 	
-	static Colonia colonia = new Colonia(numVar,numVar);
+	static Colonia colonia = new Colonia(variables);
 	static ArrayList<String> comuna = new ArrayList<String>();
 	
 	 
@@ -23,7 +23,7 @@ public class Main {
 			colonia.memorizarMejorFuente();
 			colonia.mandarAbejasExploradoras();
 		}
-		for(int j=0; j<numVar; j++){
+		for(int j=0; j<variables; j++){
 			String acepta="si";
 			if(colonia.GlobalParams[j]==0) acepta="no";
 			 System.out.println(comuna.get(j)+": "+acepta+" se acepta colocar una antena en esta comuna.");

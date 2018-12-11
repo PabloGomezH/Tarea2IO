@@ -9,11 +9,11 @@ public class Colonia {
 		
 	
 
-		int Alimento[][]=new int[numFuentesAlimento][dim];        /*Matriz con las fuentes de alimentos,cada fila tiene tantas columnas como dimensiones tenga el problema*/
-		double f[]=new double[numFuentesAlimento];        /*f es un vector que contiene los valores de la funcion objetivo asociado a cada fuente de alimentos*/
-		double fitness[]=new double[numFuentesAlimento];      /*fitness es un vector que contiene los valores del fitness asociado a cada fuente de alimento*/
+		int Alimento[][]=new int[numFuentesAlimento][dim];        /*Las fuentes de alimentos*/
+		double f[]=new double[numFuentesAlimento];        /*Vector que contiene los valores de la funcion objetivo asociado a cada fuente de alimentos*/
+		double fitness[]=new double[numFuentesAlimento];      /*Vector que contiene los valores del fitness asociado a cada fuente de alimento*/
 		int intentos[]=new int[numFuentesAlimento];         
-		double prob[]=new double[numFuentesAlimento];          /*prob es un vector que contiene la probabilidad de cada fuente de alimento de ser escogida */
+		double prob[]=new double[numFuentesAlimento];          /*Vector que contiene la probabilidad de cada fuente de alimento de ser escogida */
 		
 		int solucion[]=new int[dim];         /*Nueva solucion producida por v_{ij}=x_{ij}+\phi_{ij}*(x_{kj}-x_{ij}) */                
 		double valorFO;              /*Valor de la nueva solucion en la funcion objetivo*/
@@ -23,11 +23,11 @@ public class Colonia {
 
 		double GlobalMin;                       /*solucion optima*/
 		int GlobalParams[]=new int[dim];  /*parametros de la funcion optima*/                 
-		double r; /*numero random*/
+		double r; /*random*/
 
 	
-		public Colonia( int numRestricciones,int numVariables){
-			datos=new Datos(numVariables,numRestricciones);	 
+		public Colonia( int numVariables){
+			datos=new Datos(numVariables,numVariables);	 
 		}
 
 		
