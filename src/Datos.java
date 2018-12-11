@@ -14,10 +14,7 @@ public class Datos{
 		this.numVariables=numVariables;
 		costos = new double[numVariables];
 	}
-	
-	
-	
-	
+		
 	/**
 	 * Lleva la matriz de restricciones a una String
 	 * @return

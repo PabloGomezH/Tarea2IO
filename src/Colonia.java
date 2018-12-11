@@ -110,7 +110,7 @@ public class Colonia {
 		  //Fase de abejas empleadas
 		   for (i=0;i<numFuentesAlimento;i++){
 			   		//Para que la solucion mutada sea factible
-			      	do{
+			      	while(flag){
 				   		/*El parametro a ser cambiado es elegido randomicamente*/
 				        r = ((double) Math.random()*32767 / ((double)(32767)+(double)(1)) );
 				        param2change=(int)(r*dim);
@@ -133,7 +133,7 @@ public class Colonia {
 	
 				        if(datos.comprobarSolucion(solucion)) flag=false;
 				        
-			      	}while(flag);
+			      	}
 			      	
 			        valorFO=datos.calcularCosto(solucion);
 			        fitnessSol=calcularFitness(valorFO);
