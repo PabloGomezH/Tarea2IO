@@ -24,14 +24,14 @@ public class Colonia {
 		double GlobalMin;                       /*solucion optima*/
 		int GlobalParams[]=new int[dim];  /*parametros de la funcion optima*/                 
 		double r; /*random*/
+		AbejaEmpleada abejaE;
 
 	
 		public Colonia( int numVariables){
 			datos=new Datos(numVariables,numVariables);	 
+			abejaE= new AbejaEmpleada();
 		}
 
-		
-		
 		double calcularFitness(double fun){
 			 double result=0;
 			 
@@ -103,76 +103,19 @@ public class Colonia {
 
 		
 		public void mandarAbejasEmpleadas(){
-		  int i,j;
-		  double aux;
-		  boolean flag=true;
-		  
-		  //Fase de abejas empleadas
-		   for (i=0;i<numFuentesAlimento;i++){
-			   		//Para que la solucion mutada sea factible
-			      	while(flag){
-				   		/*El parametro a ser cambiado es elegido randomicamente*/
-				        r = ((double) Math.random()*32767 / ((double)(32767)+(double)(1)) );
-				        param2change=(int)(r*dim);
-				        
-				        //Para que la el vecino no sea el mismo que i
-				        do{
-				        	/*Elige una solucion random para ser usada para producir un mutante de la solucion i*/
-				        	r = (   (double)Math.random()*32767 / ((double)(32767)+(double)(1)) );
-				        	vecino=(int)(r*numFuentesAlimento);
-					    }while(vecino==i);
-					        
-					   
-				        //copia la solucion
-				        for(j=0;j<dim;j++) solucion[j]=Alimento[i][j];
-		
-				        /*v_{ij}=x_{ij}+\phi_{ij}*(x_{kj}-x_{ij}) */
-				        r = (   (double)Math.random()*32767 / ((double)(32767)+(double)(1)) );
-				        aux =Alimento[i][param2change]+(Alimento[i][param2change]-Alimento[vecino][param2change])*(r-0.5)*2;
-				        solucion[param2change]= binarizar(aux);
-	
-				        if(datos.comprobarSolucion(solucion)) flag=false;
-				        
-			      	}
-			      	
-			        valorFO=datos.calcularCosto(solucion);
-			        fitnessSol=calcularFitness(valorFO);
-			        
-			        if (fitnessSol>fitness[i]){
-				        /*Si la solucion mutante es mejor que la solucion i, se reemplaza y resetea el contador de intentos*/
-				        intentos[i]=0;
-				        for(j=0;j<dim;j++) Alimento[i][j]=solucion[j];
-				        
-				        f[i]=valorFO;
-				        fitness[i]=fitnessSol;
-			        }
-			        else   /*Si la solucion no fue mejorada, se incrementa el contador de intentos*/
-			            intentos[i]=intentos[i]+1;
-		        }
-		}
-
-		/**
-		 * Calcula las probabilidades de ser elegidas las fuentes de alimento
-		 */
-		public void calcularProbabilidades(){
-		     int i;
-		     double maxfit;
-		     maxfit=fitness[0];
-		     for (i=1;i<numFuentesAlimento;i++){
-		           if (fitness[i]>maxfit)
-		           maxfit=fitness[i];
-		     }
-
-		     for (i=0;i<numFuentesAlimento;i++) prob[i]=(0.9*(fitness[i]/maxfit))+0.1;
-		     
-
+		  abejaE.mandarAbejasEmpleadas(numFuentesAlimento,dim, solucion, Alimento, datos,fitness,intentos,f);
+		  param2change = abejaE.getParam2Change();
+		  valorFO = abejaE.getValorFO();
+		  fitnessSol = abejaE.getFitnessSol();
+		  fitness = abejaE.getFitness();
+		  Alimento= abejaE.getAlimento();
+		  intentos=abejaE.getIntentos();
 		}
 
 		/**
 		 * Manda a las abejas observadoras
 		 */
 		public void mandarAbejasObservadoras(){
-
 			int i,j,t;
 			i=0;
 			t=0;
@@ -232,6 +175,22 @@ public class Colonia {
 		     
 		}
 
+		/**
+		 * Calcula las probabilidades de ser elegidas las fuentes de alimento
+		 */
+		public void calcularProbabilidades(){
+		     int i;
+		     double maxfit;
+		     maxfit=fitness[0];
+		     for (i=1;i<numFuentesAlimento;i++){
+		           if (fitness[i]>maxfit)
+		           maxfit=fitness[i];
+		     }
+
+		     for (i=0;i<numFuentesAlimento;i++) prob[i]=(0.9*(fitness[i]/maxfit))+0.1;
+		     
+
+		}
 	
 		/**
 		 * Determina que fuentes de alimento exceden el numero de intentos (valor "limit")
